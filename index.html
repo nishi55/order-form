@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8" />
+  <title>職員室注文システム</title>
+</head>
+<body>
+  <h2>職員室用注文フォーム</h2>
+
+  <label>ユーザー名：</label>
+  <input type="text" id="userName" readonly><br><br>
+
+  <label>職員室：</label>
+  <select id="room">
+    <option>職員室</option>
+    <option>生徒指導室</option>
+		<option>商業センター</option>
+		<option>進路指導室</option>
+		<option>事務室</option>
+  </select><br><br>
+
+  <label>商品名：</label>
+  <select id="productName">
+    <option>コーヒー</option>
+    <option>紅茶</option>
+  </select><br><br>
+
+  <label>数量：</label>
+  <input type="number" id="quantity" value="1" min="1"><br><br>
+
+  <button onclick="submitOrder()">注文する</button>
+
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script>
+    const API_URL = "https://script.google.com/macros/s/あなたのURL/exec"; // あなたのApps Script URLに置き換えてください
+
+    async function submitOrder() {
+      const data = {
+        userName: document.getElementById("userName").value,
+        room: document.getElementById("room").value,
+        productName: document.getElementById("productName").value,
+        quantity: document.getElementById("quantity").value
+      };
+
+      await fetch(API_URL, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+      });
+
+      alert("注文を送信しました！");
+    }
+
+    // LIFF 初期化
+    liff.init({ liffId: "あなたのLIFF ID" }).then(() => {
+      liff.getProfile().then(profile => {
+        document.getElementById("userName").value = profile.displayName;
+      });
+    });
+  </script>
+</body>
+</html>
